@@ -31,8 +31,11 @@
 
 
 const express = require('express');
+const https = require('https');
 const dotenv = require('dotenv');
+const fs = require('fs'); 
 const cors = require('cors');
+
 const authRoutes = require('./routes/authRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
@@ -47,5 +50,15 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/payments', paymentRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+const sslOptions = {
+    key: fs.readFileSync('./ssl/localhost-key.pem'),
+    cert: fs.readFileSync('./ssl/localhost.pem'),
+};
+
+https.createServer(sslOptions, app).listen(5000, () => {
+    console.log('Server is running on https://localhost:5000');
+});
