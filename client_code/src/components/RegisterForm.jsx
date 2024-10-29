@@ -19,13 +19,6 @@ const RegisterForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, formData);
-
-    //   axios.post('http://localhost:5000/api/auth/register', { 
-    //     name,
-    //     idNumber,
-    //     accountNumber,
-    //     password,
-    //   });
       
       console.log(response.data);
       alert('Registration successful');
