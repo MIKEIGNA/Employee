@@ -180,10 +180,10 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npx sonar-scanner -Dsonar.projectKey=YourProjectKey \
-          -Dsonar.sources=./src \
-          -Dsonar.host.url=https://your-sonarqube-url \
-          -Dsonar.login=$SONAR_TOKEN
+      - run: npx sonar-scanner -Dsonar.projectKey=Yemployee \
+          -Dsonar.sources=./ \
+          -Dsonar.host.url=http://127.0.0.1:9000  \
+          -Dsonar.login=qp_72e4c9472800885b1dd8f333d60c4464b98dcd05
 workflows:
   version: 2
   scan:
