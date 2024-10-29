@@ -1,42 +1,68 @@
+/* App.css */
+
+/* Root styling for the app */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #f0f0f0; /* Light background for contrast */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Heading styles */
+h2 {
+  color: #35424a; /* Darker color for headings */
+  margin-bottom: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Container styling for the login, register, and home pages */
+.home, .login, .register {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+  background: white; /* Card background */
+  padding: 2rem;
+  margin: 1rem auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Input and textarea styles */
+input, textarea, select {
+  width: 100%; /* Make the fields full width */
+  max-width: 400px; /* Set a maximum width */
+  padding: 1rem; /* Increase padding for a bigger appearance */
+  margin: 0.5rem 0; /* Margin for spacing between fields */
+  border: 1px solid #ccc; /* Light border for fields */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+  font-size: 1rem; /* Font size for input fields */
+}
+
+/* Button styles */
+button {
+  width: 100%; /* Make buttons full width */
+  max-width: 400px; /* Match the width of input fields */
+  padding: 1rem; /* Increase padding for better clickability */
+  background-color: #646cff; /* Primary button color */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 1rem; /* Font size for buttons */
+  cursor: pointer;
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+/* Button hover effects */
+button:hover {
+  background-color: #535bf2; /* Lighter shade on hover */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  input, textarea, select, button {
+    max-width: 90%; /* Allow more width on smaller screens */
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
