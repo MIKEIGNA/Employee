@@ -107,65 +107,85 @@
 
 
 
-version: 2.1
+# version: 2.1
 
-orbs:
-  node: circleci/node@5.2
+# orbs:
+#   node: circleci/node@5.2
 
-jobs:
-  build-and-test:
-    docker:
-      - image: cimg/node:16.10
+# jobs:
+#   build-and-test:
+#     docker:
+#       - image: cimg/node:16.10
 
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
 
-      # Run npm audit for security vulnerabilities
-      - run:
-          name: Security Audit
-          command: npm audit --audit-level=high
+#       # Run npm audit for security vulnerabilities
+#       - run:
+#           name: Security Audit
+#           command: npm audit --audit-level=high
 
-      # Run tests and generate reports
-      - run:
-          name: Run tests
-          command: |
-            mkdir -p test-results
-            npm test -- --coverage --outputFile=test-results/coverage.json
+#       # Run tests and generate reports
+#       - run:
+#           name: Run tests
+#           command: |
+#             mkdir -p test-results
+#             npm test -- --coverage --outputFile=test-results/coverage.json
 
-      # Save test results
-      - store_test_results:
-          path: test-results
+#       # Save test results
+#       - store_test_results:
+#           path: test-results
           
-      # Install and run SonarQube scanner
-      - run:
-          name: SonarQube Analysis
-          command: |
-            npm install -g sonar-scanner
-            sonar-scanner \
-              -Dsonar.projectKey=employee \
-              -Dsonar.sources=. \
-              -Dsonar.host.url=http://127.0.0.1:9000 \
-              -Dsonar.token=sqp_72e4c9472800885b1dd8f333d60c4464b98dcd05
+#       # Install and run SonarQube scanner
+#       - run:
+#           name: SonarQube Analysis
+#           command: |
+#             npm install -g sonar-scanner
+#             sonar-scanner \
+#               -Dsonar.projectKey=employee \
+#               -Dsonar.sources=. \
+#               -Dsonar.host.url=http://127.0.0.1:9000 \
+#               -Dsonar.token=sqp_72e4c9472800885b1dd8f333d60c4464b98dcd05
 
 
-  build:
+#   build:
+#     docker:
+#       - image: cimg/node:16.10
+
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+
+#       # Run the production build
+#       - run:
+#           name: Build Application
+#           command: npm run build
+
+# workflows:
+#   build_and_test:
+#     jobs:
+#       - build-and-test
+#       - build
+
+
+# .circleci/config.yml
+version: 2.1
+jobs:
+  sonar:
     docker:
-      - image: cimg/node:16.10
-
+      - image: circleci/node:latest
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-
-      # Run the production build
-      - run:
-          name: Build Application
-          command: npm run build
-
+      - run: npm install
+      - run: npx sonar-scanner -Dsonar.projectKey=YourProjectKey \
+          -Dsonar.sources=./src \
+          -Dsonar.host.url=https://your-sonarqube-url \
+          -Dsonar.login=$SONAR_TOKEN
 workflows:
-  build_and_test:
+  version: 2
+  scan:
     jobs:
-      - build-and-test
-      - build
+      - sonar
