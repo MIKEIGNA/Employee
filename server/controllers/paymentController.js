@@ -1,3 +1,4 @@
+//server/controllers/paymentController.js
 const { Payment } = require('../models');
 const jwt = require('jsonwebtoken');
 
