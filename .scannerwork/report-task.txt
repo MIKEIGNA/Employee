@@ -1,6 +1,6 @@
-projectKey=employee
-serverUrl=http://127.0.0.1:9000
+projectKey=employee_final
+serverUrl=http://localhost:9000
 serverVersion=10.7.0.96327
-dashboardUrl=http://127.0.0.1:9000/dashboard?id=employee
-ceTaskId=cbfdbe3b-46ac-4f09-ba4a-4cf4af748834
-ceTaskUrl=http://127.0.0.1:9000/api/ce/task?id=cbfdbe3b-46ac-4f09-ba4a-4cf4af748834
+dashboardUrl=http://localhost:9000/dashboard?id=employee_final
+ceTaskId=632a3b33-e1ec-4a2a-9fa2-ca105c386b4c
+ceTaskUrl=http://localhost:9000/api/ce/task?id=632a3b33-e1ec-4a2a-9fa2-ca105c386b4c

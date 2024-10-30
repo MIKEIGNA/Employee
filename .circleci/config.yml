@@ -233,10 +233,10 @@ jobs:
           name: Run SonarQube Analysis
           command: |
             sonar-scanner \
-              -Dsonar.projectKey=employee \
+              -Dsonar.projectKey=employee_final \
               -Dsonar.sources=. \
-              -Dsonar.host.url=http://127.0.0.1:9000 \
-              -Dsonar.login=qp_72e4c9472800885b1dd8f333d60c4464b98dcd05
+              -Dsonar.host.url=http://localhost:9000 \
+              -Dsonar.token=sqp_b86326115ccdfdd9c96cab52528f30f8c3d112ca
 
 workflows:
   version: 2
