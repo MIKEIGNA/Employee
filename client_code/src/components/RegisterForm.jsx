@@ -15,19 +15,6 @@ const Register = () => {
     }
   }, [navigate]);
   
-//   useEffect(() => {
-//     const role = localStorage.getItem('role');
-//     if (!role) {
-//         alert('No user is logged in. Please log in first.');
-//         navigate('/login'); // Redirect to login if no role found
-//         return; // Exit effect
-//     }
-//     if (role !== 'admin') {
-//         alert('Access Denied: Only admins can register new customers.');
-//         navigate('/home');
-//     }
-// }, [navigate]);
-
 
   return (
     <div className="register-container">
