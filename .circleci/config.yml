@@ -171,21 +171,78 @@
 #       - build
 
 
-# .circleci/config.yml
+# # .circleci/config.yml
+# version: 2.1
+# jobs:
+#   sonar:
+#     docker:
+#       - image: circleci/node:latest
+#     steps:
+#       - checkout
+#       - run: npm install
+#       - run: npx sonar-scanner -Dsonar.projectKey=Yemployee \
+#           -Dsonar.sources=./ \
+#           -Dsonar.host.url=http://127.0.0.1:9000  \
+#           -Dsonar.login=qp_72e4c9472800885b1dd8f333d60c4464b98dcd05
+# workflows:
+#   version: 2
+#   scan:
+#     jobs:
+#       - sonar
+
+
 version: 2.1
+
+orbs:
+  node: circleci/node@5.2
+
 jobs:
-  sonar:
+  build-and-test:
     docker:
-      - image: circleci/node:latest
+      - image: cimg/node:16.10
     steps:
       - checkout
-      - run: npm install
-      - run: npx sonar-scanner -Dsonar.projectKey=Yemployee \
-          -Dsonar.sources=./ \
-          -Dsonar.host.url=http://127.0.0.1:9000  \
-          -Dsonar.login=qp_72e4c9472800885b1dd8f333d60c4464b98dcd05
+      - node/install-packages:
+          pkg-manager: npm
+
+      # Run npm audit for security vulnerabilities
+      - run:
+          name: Security Audit
+          command: npm audit --audit-level=high
+
+      # Run tests and generate reports
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p test-results
+            npm test -- --coverage --outputFile=test-results/coverage.json
+
+      # Save test results
+      - store_test_results:
+          path: test-results
+
+  sonar:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      - run:
+          name: Install Sonar Scanner
+          command: npm install -g sonar-scanner
+      - run:
+          name: Run SonarQube Analysis
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=employee \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=http://127.0.0.1:9000 \
+              -Dsonar.login=qp_72e4c9472800885b1dd8f333d60c4464b98dcd05
+
 workflows:
   version: 2
-  scan:
+  build_and_test:
     jobs:
-      - sonar
+      - build-and-test
+      - sonar:
+          requires:
+            - build-and-test  # Run SonarQube analysis after the build-and-test job
