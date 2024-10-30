@@ -191,58 +191,184 @@
 #       - sonar
 
 
+# version: 2.1
+
+# orbs:
+#   node: circleci/node@5.2
+
+# jobs:
+#   build-and-test:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+
+#       # Run npm audit for security vulnerabilities
+#       - run:
+#           name: Security Audit
+#           command: npm audit --audit-level=high
+
+#       # Run tests and generate reports
+#       - run:
+#           name: Run tests
+#           command: |
+#             mkdir -p test-results
+#             npm test -- --coverage --outputFile=test-results/coverage.json
+
+#       # Save test results
+#       - store_test_results:
+#           path: test-results
+
+#   sonar:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - run:
+#           name: Install Sonar Scanner
+#           command: npm install -g sonar-scanner
+#       - run:
+#           name: Run SonarQube Analysis
+#           command: |
+#             sonar-scanner \
+#               -Dsonar.projectKey=employee_final \
+#               -Dsonar.sources=. \
+#               -Dsonar.host.url=http://localhost:9000 \
+#               -Dsonar.token=sqp_b86326115ccdfdd9c96cab52528f30f8c3d112ca
+
+# workflows:
+#   version: 2
+#   build_and_test:
+#     jobs:
+#       - build-and-test
+#       - sonar:
+#           requires:
+#             - build-and-test  # Run SonarQube analysis after the build-and-test job
+
+
+# version: 2.1
+
+# orbs:
+#   node: circleci/node@5.2
+
+# jobs:
+#   build-and-test:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - node/install-packages:
+#           pkg-manager: npm
+
+#       # Check the availability of SonarQube
+#       - run:
+#           name: Check SonarQube Server
+#           command: curl -I http://127.0.0.1:9000 || echo "SonarQube not reachable"
+
+#       # Run npm audit for security vulnerabilities
+#       - run:
+#           name: Security Audit
+#           command: npm audit --audit-level=high
+
+#       # Run tests and generate reports
+#       - run:
+#           name: Run tests
+#           command: |
+#             mkdir -p test-results
+#             npm test -- --coverage --outputFile=test-results/coverage.json
+
+#       # Save test results
+#       - store_test_results:
+#           path: test-results
+
+#   sonar:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - run:
+#           name: Install Sonar Scanner
+#           command: npm install -g sonar-scanner
+#       - run:
+#           name: Run SonarQube Analysis
+#           command: |
+#             sonar-scanner \
+#               -Dsonar.projectKey=employee_final \
+#               -Dsonar.sources=. \
+#               -Dsonar.host.url=http://127.0.0.1:9000 \
+#               -Dsonar.login=sqp_b86326115ccdfdd9c96cab52528f30f8c3d112cals
+
+# workflows:
+#   version: 2
+#   build_and_test:
+#     jobs:
+#       - build-and-test
+#       - sonar:
+#           requires:
+#             - build-and-test
+
+
+# #.cicleci/config.yml
+# version: 2.1
+
+# jobs:
+#   sonar:
+#     docker:
+#       - image: cimg/node:16.10
+#     steps:
+#       - checkout
+#       - run:
+#           name: Install Sonar Scanner
+#           command: npm install -g sonar-scanner
+#       - run:
+#           name: Run SonarQube Analysis
+#           command: |
+#             sonar-scanner \
+#               -Dsonar.projectKey=employee_final \
+#               -Dsonar.sources=. \
+#               -Dsonar.host.url=http://127.0.0.1:9000 \
+#               -Dsonar.login=sqp_b86326115ccdfdd9c96cab52528f30f8c3d112cals
+
+# workflows:
+#   version: 2
+#   sonar_analysis:
+#     jobs:
+#       - sonar
+
+
 version: 2.1
 
 orbs:
   node: circleci/node@5.2
 
 jobs:
-  build-and-test:
+  build-and-test-client:
     docker:
       - image: cimg/node:16.10
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: npm
-
-      # Run npm audit for security vulnerabilities
       - run:
-          name: Security Audit
-          command: npm audit --audit-level=high
+          name: Run Client Tests
+          command: npm test
 
-      # Run tests and generate reports
-      - run:
-          name: Run tests
-          command: |
-            mkdir -p test-results
-            npm test -- --coverage --outputFile=test-results/coverage.json
-
-      # Save test results
-      - store_test_results:
-          path: test-results
-
-  sonar:
+  build-and-test-server:
     docker:
       - image: cimg/node:16.10
     steps:
       - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: Install Sonar Scanner
-          command: npm install -g sonar-scanner
-      - run:
-          name: Run SonarQube Analysis
-          command: |
-            sonar-scanner \
-              -Dsonar.projectKey=employee_final \
-              -Dsonar.sources=. \
-              -Dsonar.host.url=http://localhost:9000 \
-              -Dsonar.token=sqp_b86326115ccdfdd9c96cab52528f30f8c3d112ca
+          name: Run Server Tests
+          command: npm test
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build-and-test
-      - sonar:
-          requires:
-            - build-and-test  # Run SonarQube analysis after the build-and-test job
+      - build-and-test-client
+      - build-and-test-server
