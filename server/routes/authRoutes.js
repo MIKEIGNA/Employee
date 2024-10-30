@@ -13,3 +13,4 @@ router.post('/register', authMiddleware(['admin']), registerUser);
 router.post('/login', loginUser);
 
 module.exports = router;
+
