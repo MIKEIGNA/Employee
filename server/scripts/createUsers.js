@@ -11,17 +11,17 @@ const createUsers = async () => {
     // Define users with necessary fields
     const users = [
       {
-        fullName: 'Admin User',
-        idNumber: '1234567890',
-        accountNumber: '12345678910',
-        password: await bcrypt.hash('AdminPassword55!', 10),
+        fullName: 'Admin User2',
+        idNumber: '89373423',
+        accountNumber: '012345678910',
+        password: await bcrypt.hash('AdminPassword10!', 10),
         role: 'admin',
       },
       {
         fullName: 'Regular User',
-        idNumber: '0987654321',
-        accountNumber: '123456789911',
-        password: await bcrypt.hash('UserPassword55!', 10),
+        idNumber: '839343434',
+        accountNumber: '112345678910',
+        password: await bcrypt.hash('UserPassword11!', 10),
         role: 'user',
       }
     ];
